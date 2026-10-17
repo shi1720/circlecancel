@@ -51,7 +51,6 @@ class CoreTests(unittest.TestCase):
    z=c.center+c.radius*np.exp(2j*np.pi*np.arange(8192)/8192)
    self.assertLessEqual(max(abs(ratio(z,aa,bb,M,gains)-1)),float(p-1))
 
-if __name__=='__main__': unittest.main()
 
 class IndependentReplayTests(unittest.TestCase):
  def test_certificate_replay_and_tamper(self):
@@ -70,3 +69,5 @@ class IndependentReplayTests(unittest.TestCase):
   z=np.exp(2j*np.pi*np.arange(40)/40)
   red=k*(z-az[0])/(z-bp[0]);original=(z-aa[0])*(z-aa[1])/(z-bb[0])/(z-bb[1])
   self.assertLess(np.max(abs(red/original-ratio(z,aa,bb,M,g))),1e-14)
+
+if __name__=='__main__': unittest.main()

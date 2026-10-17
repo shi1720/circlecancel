@@ -1,0 +1,13 @@
+test_circle_image (test_core.CoreTests.test_circle_image) ... ok
+test_exact_and_tamper (test_core.CoreTests.test_exact_and_tamper) ... ok
+test_exact_flow_exhaustive (test_core.CoreTests.test_exact_flow_exhaustive) ... ok
+test_product (test_core.CoreTests.test_product) ... ok
+test_topology_and_joint_obstruction (test_core.CoreTests.test_topology_and_joint_obstruction) ... ok
+test_certificate_replay_and_tamper (test_core.IndependentReplayTests.test_certificate_replay_and_tamper) ... ok
+test_reduced_representation (test_core.IndependentReplayTests.test_reduced_representation) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.900s
+
+OK
+PASS: 180 cases, 1379 selected cancellations; exact continuous-circle inequalities and total budgets verified.
