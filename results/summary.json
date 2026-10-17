@@ -1,0 +1,23 @@
+{
+  "sharpness_cases": 186,
+  "sharpness_max_normalized_residual": 2.140504893927429e-15,
+  "obstruction_individual": [
+    0.09099181073703366,
+    0.11098779134295227
+  ],
+  "obstruction_joint": 1.0000000000583669,
+  "joint_gain_gap_count": 74,
+  "joint_max_gap": 0.31614731751284747,
+  "bank_cases": 144,
+  "aaa_cases": 36,
+  "certificates": [
+    180,
+    1379
+  ],
+  "elapsed_s": 5.393519582998124,
+  "python": "3.12.14",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "cvxpy": "1.9.3",
+  "platform": "macOS-27.0.1-arm64-arm-64bit"
+}
