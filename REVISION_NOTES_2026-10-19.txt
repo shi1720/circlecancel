@@ -1,0 +1,9 @@
+CircleCancel replacement journal revision, 19 October 2026
+
+1. Corollary on interior derivative bounds now explicitly restricts Q derivatives to integer orders k >= 1; the k=0 statement bounds Q-1.
+2. Independent verifier uses explicit exceptions rather than assertions, validates nonempty circle lists, integer index ranges and matching uniqueness, and requires two-component complex coordinates.
+3. Four regression test methods supplement the original seven. All eleven pass, including tamper rejection under python -O.
+4. Full experiment regeneration reproduces all scientific result fields and all 180 certificates / 1379 cancellations. Only timing fields differ.
+5. Beckermann-Labahn-Matos reference updated to its published 2018 Numerische Mathematik article, DOI 10.1007/s00211-017-0917-3.
+6. Springer layout, complete author/funding/interest/data/assistance declarations and a reproducible resource added. Existing synthetic data and root-conversion limitations retained.
+Original public commit: 3d1fe2b0fefd660fef7328051a9827bef85533e0

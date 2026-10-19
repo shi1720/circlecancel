@@ -32,7 +32,7 @@ The independent checker alone needs only Python:
 python3 verify_certificate.py results/certificates.json
 ```
 
-Expected replay: **180 cases and 1,379 selected cancellations**. The seven test groups include exhaustive comparison with all matchings on 150 small graphs and deliberate certificate tampering.
+Expected replay: **180 cases and 1,379 selected cancellations**. The eleven test methods include exhaustive comparison with all matchings on 150 small graphs and deliberate certificate tampering.
 
 `experiments.py` regenerates the raw CSV data, JSON certificates, and the three figures. Root calculations and optimization may vary by platform; certificates are accepted only after exact checks. Runtime measurements are machine dependent. Conic-solver accuracy warnings may occur for nearly degenerate pairs; no solver status substitutes for exact edge verification.
 
@@ -75,6 +75,7 @@ For full portable proof objects, use the JSON schema exemplified in `results/cer
 - Only 3/36 AAA reductions improve sampled error to the original analytic function. This is compression, not a denoising claim.
 - 120 two-circle gain comparisons illustrate why separate normalization can be insufficient.
 - 150 exact exhaustive matching audits plus independent exact replay of every final result.
+- Four additional input-validation regressions cover malformed indices, empty protected sets, repeated edges and rejection of tampered bounds under Python optimization.
 
 The synthetic experiments do not establish production superiority, market demand, patentability, or universal novelty. Closest prior work and searched contribution boundaries are recorded in `literature_review.csv`. An overlap audit against the author's supplied earlier manuscripts is in `prior_work_audit.csv`.
 

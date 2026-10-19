@@ -6,13 +6,24 @@ circle-image centers, optimizer output, or sampled boundary points.
 import json,sys
 from fractions import Fraction as F
 
-def z(x): return tuple(F(t) for t in x)
+def z(x):
+    if not isinstance(x, (list, tuple)) or len(x)!=2:
+        raise ValueError('complex coordinate must have two rational components')
+    return tuple(F(t) for t in x)
 def plus(x,y):return x[0]+y[0],x[1]+y[1]
 def minus(x,y):return x[0]-y[0],x[1]-y[1]
 def times(x,y):return x[0]*y[0]-x[1]*y[1],x[0]*y[1]+x[1]*y[0]
 def conj(x):return x[0],-x[1]
 def norm(x):return x[0]**2+x[1]**2
 def scale(x,k):return x[0]*k,x[1]*k
+
+class CertificateError(ValueError):
+    """A certificate does not meet the declared cancellation contract."""
+
+def require(condition, message):
+    # These acceptance checks must remain active under python -O.
+    if not condition:
+        raise CertificateError(message)
 
 def check_edge(a,b,c,R,g,e):
     v=minus(g,(F(1),F(0)))
@@ -23,29 +34,40 @@ def check_edge(a,b,c,R,g,e):
     return q>=0 and q*q>=4*R*R*norm(l)
 
 def verify(data):
+    require(isinstance(data, list), 'certificate collection must be a list')
     total=0
     for case in data:
+        require(isinstance(case, dict), 'case must be an object')
+        require(isinstance(case['circles'], list) and len(case['circles'])>0,
+                'at least one protected circle is required')
+        require(isinstance(case['zeros'], list) and isinstance(case['poles'], list),
+                'root collections must be lists')
+        require(isinstance(case['selected'], list), 'selected edges must be a list')
+        require(F(case['budget'])>=0, 'budget must be nonnegative')
         iz=set(); jp=set(); product=F(1)
         for circ in case['circles']:
             c,R=z(circ['center']),F(circ['radius'])
-            assert R>0
+            require(R>0, 'circle radius must be positive')
             for root in case['zeros']+case['poles']:
-                assert norm(minus(z(root),c))!=R*R, 'root on protected circle'
+                require(norm(minus(z(root),c))!=R*R, 'root on protected circle')
         for edge in case['selected']:
             i,j=edge['i'],edge['j']
-            assert i not in iz and j not in jp, 'not a matching'
+            require(type(i) is int and 0<=i<len(case['zeros']), 'invalid zero index')
+            require(type(j) is int and 0<=j<len(case['poles']), 'invalid pole index')
+            require(i not in iz and j not in jp, 'not a matching')
             iz.add(i); jp.add(j)
             a,b=z(case['zeros'][i]),z(case['poles'][j])
             g,e=z(edge['gain']),F(edge['epsilon'])
-            assert norm(g)>0 and 0<=e<1
+            require(norm(g)>0 and 0<=e<1, 'invalid gain or edge error')
             for circ in case['circles']:
                 c,R=z(circ['center']),F(circ['radius'])
-                assert R>0
-                assert norm(minus(a,c))!=R*R and norm(minus(b,c))!=R*R
-                assert check_edge(a,b,c,R,g,e), 'circle inequality failed'
+                require(R>0, 'circle radius must be positive')
+                require(norm(minus(a,c))!=R*R and norm(minus(b,c))!=R*R,
+                        'root on protected circle')
+                require(check_edge(a,b,c,R,g,e), 'circle inequality failed')
             product*=1+e
             total+=1
-        assert product-1<=F(case['budget']), 'budget exceeded'
+        require(product-1<=F(case['budget']), 'budget exceeded')
     return len(data),total
 
 if __name__=='__main__':

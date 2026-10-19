@@ -61,7 +61,7 @@ class IndependentReplayTests(unittest.TestCase):
   self.assertEqual(verify(cases),(180,1379))
   case=next(copy.deepcopy(c) for c in cases if c['selected'])
   case['selected'][0]['epsilon']='0'
-  with self.assertRaises(AssertionError):verify([case])
+  with self.assertRaises(ValueError):verify([case])
  def test_reduced_representation(self):
   from circlecancel.core import reduced_factors
   aa=[.1,.2];bb=[.11,.8];M={(0,0)};g={(0,0):.99}
